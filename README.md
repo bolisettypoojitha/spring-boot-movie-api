@@ -50,4 +50,13 @@ src/main/java/com/example/demo
 git clone https://github.com/bolisettypoojitha/spring-boot-movie-api.git
 cd spring-boot-movie-api
 ./mvnw spring-boot:run
+## Live API
+Base URL: https://spring-boot-movie-api.onrender.com
+
+### POST /api/movies
+Creates a new movie
+
+### GET /api/movies/{id}
+Fetch movie by ID
+
 
