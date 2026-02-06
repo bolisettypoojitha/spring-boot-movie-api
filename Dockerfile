@@ -1,12 +1,26 @@
+# Stage 1: Build
+FROM maven:3.9.9-eclipse-temurin-21 AS build
+
+WORKDIR /app
+
+# Copy pom.xml and download dependencies
+COPY pom.xml .
+RUN mvn dependency:go-offline
+
+# Copy source code
+COPY src ./src
+
+# Build the jar
+RUN mvn clean package -DskipTests
+
+# Stage 2: Run
 FROM eclipse-temurin:21-jdk
 
 WORKDIR /app
 
-COPY . .
-
-RUN ./mvnw clean package -DskipTests
+# Copy jar from build stage
+COPY --from=build /app/target/demo-0.0.1-SNAPSHOT.jar app.jar
 
 EXPOSE 8080
 
-CMD ["java", "-jar", "target/demo-0.0.1-SNAPSHOT.jar"]
-
+ENTRYPOINT ["java", "-jar", "app.jar"]
